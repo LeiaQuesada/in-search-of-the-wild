@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# in-search-of-the-wild
+Track sighting details of different animal species
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
