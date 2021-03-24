@@ -3,12 +3,9 @@ const app = express();
 const cors = require("cors");
 const port = 5000;
 
-// allows cross origin requests
 app.use(cors());
-// json body parser
 app.use(express.json());
 
-// connects to PostgreSQL
 const pgp = require("pg-promise")({});
 const cn = {
   host: "localhost",
@@ -19,7 +16,7 @@ const cn = {
 };
 const db = pgp(cn);
 
-// check database connection
+// requests all from sightings
 app.get("/sightings", async (req, res) => {
   try {
     const sighting = await db.any("SELECT * FROM sighting;", [true]);
