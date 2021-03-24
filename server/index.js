@@ -16,6 +16,21 @@ const cn = {
 };
 const db = pgp(cn);
 
+// create login route
+app.get("/login/:username", async (req, res) => {
+  try {
+    const users = await db.any(
+      `SELECT * FROM researchers WHERE username = '${req.params.username}';`,
+      [true]
+    );
+    let success = users.length >= 1 ? true : false;
+    console.log({ success });
+    res.json({ success: success });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 // requests all from sightings
 app.get("/sightings", async (req, res) => {
   try {

@@ -1,10 +1,37 @@
 import "./App.css";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./components/Login";
+import Sightings from "./components/Sightings";
 
 function App() {
   return (
-    <div>
-      <h2>This here's a doozey</h2>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Login</Link>
+            </li>
+            <li>
+              <Link to="/sightings">Sightings</Link>
+            </li>
+            <li>
+              <Link to="/species">Species</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Switch>
+          <Route path="/sightings">
+            <Sightings />
+          </Route>
+          <Route path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
