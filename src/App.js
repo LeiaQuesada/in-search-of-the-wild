@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./components/Login";
 import Sightings from "./components/Sightings";
+import AddSighting from "./components/AddSighting";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
               <Link to="/">Login</Link>
             </li>
             <li>
+              <Link to="/addsighting">Add Sighting</Link>
+            </li>
+            <li>
               <Link to="/sightings">Sightings</Link>
             </li>
             <li>
@@ -23,6 +27,9 @@ function App() {
         </nav>
 
         <Switch>
+          <Route path="/addsighting">
+            <AddSighting />
+          </Route>
           <Route path="/sightings">
             <Sightings />
           </Route>
