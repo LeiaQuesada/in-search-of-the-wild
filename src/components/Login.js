@@ -2,22 +2,21 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   let history = useHistory();
 
   async function CheckLogin() {
     try {
-      if (!username) {
-        alert("Username cannot be empty");
+      if (!email) {
+        alert("Email cannot be empty");
         return false;
       }
-      let res = await fetch(`http://localhost:5000/login/${username}`);
+      let res = await fetch(`http://localhost:5000/login/${email}`);
       let resultObject = await res.json();
-      if (resultObject.success === true) {
-        history.push("/sightings");
-      } else {
-        alert("username not found");
+      if (resultObject.userCreated === true) {
+        alert("User created!");
       }
+      history.push("/sightings");
     } catch (e) {
       console.error(e.message);
     }
@@ -32,16 +31,18 @@ const Login = () => {
     <>
       <h3>Log in to track your Data</h3>
       <form onSubmit={submitForm}>
-        <label>username: </label>
+        <label>Log in or Register: &nbsp;</label>
         <input
-          value={username}
+          value={email}
+          placeholder="Email"
           type="text"
           onChange={(e) => {
             e.preventDefault();
-            setUsername(e.target.value);
+            setEmail(e.target.value);
           }}
         ></input>
-        <button onClick={CheckLogin}>Login</button>
+        &nbsp;
+        <button onClick={CheckLogin}>Submit</button>
       </form>
     </>
   );

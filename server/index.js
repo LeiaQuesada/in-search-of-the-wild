@@ -17,15 +17,23 @@ const cn = {
 const db = pgp(cn);
 
 // create login route
-app.get("/login/:username", async (req, res) => {
+app.get("/login/:email", async (req, res) => {
+  let userCreated = false;
   try {
     const users = await db.any(
-      `SELECT * FROM researchers WHERE username = '${req.params.username}';`,
+      `SELECT * FROM researchers WHERE email = '${req.params.email}';`,
       [true]
     );
-    let success = users.length >= 1 ? true : false;
-    console.log({ success });
-    res.json({ success: success });
+    if (users.length < 1) {
+      const newUser = await db.one(
+        `INSERT INTO researchers (email) VALUES ('${req.params.email}') RETURNING *;`,
+        [true]
+      );
+      if (newUser.length > 0) {
+        userCreated = true;
+      }
+    }
+    res.json({ userCreated: userCreated });
   } catch (e) {
     console.log(e);
   }
