@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 const AddSighting = (props) => {
+  let history = useHistory();
   const [individual_id, setIndividual_id] = useState();
   const [healthy, setHealthy] = useState(false);
   const [location, setLocation] = useState();
@@ -33,6 +35,7 @@ const AddSighting = (props) => {
             alert(result.message);
           }
         },
+        history.push("/sightings"),
         (error) => {
           alert(error);
         }
@@ -114,7 +117,7 @@ const AddSighting = (props) => {
         </FormGroup>
         <Button color="secondary" onClick={submitFindings}>
           Submit Findings
-        </Button>{" "}
+        </Button>
       </Form>
     </>
   );

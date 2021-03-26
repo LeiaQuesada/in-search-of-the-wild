@@ -44,14 +44,14 @@ app.post("/addsighting", async (req, res) => {
     const {
       creationdate,
       individual_id,
-      // healthy,
+      healthy,
       location,
       date,
       time,
     } = req.body;
     const newSighting = await db.one(
-      `INSERT INTO sighting (creationdate, individual_id, location, date, time) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
-      [creationdate, individual_id, location, date, time]
+      `INSERT INTO sighting (creationdate, individual_id, healthy, location, date, time) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
+      [creationdate, individual_id, healthy, location, date, time]
     );
 
     res.json({ message: "sighting created" });
