@@ -7,21 +7,29 @@ import AddSighting from "./components/AddSighting";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route path="/addsighting">
-            <AddSighting />
-          </Route>
-          <Route path="/sightings">
-            <Sightings />
-          </Route>
-          <Route path="/">
-            <Login />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/addsighting">
+              <AddSighting />
+            </Route>
+            <Route path="/sightings">
+              <Sightings />
+            </Route>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </div>
   );
 }
 
