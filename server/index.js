@@ -39,6 +39,20 @@ app.get("/login/:email", async (req, res) => {
   }
 });
 
+app.post("/addsighting", async (req, res) => {
+  try {
+    const { creationdate } = req.body;
+    const newSighting = await db.one(
+      `INSERT INTO sighting (creationdate) VALUES ('${creationdate}') RETURNING *;`,
+      [true]
+    );
+
+    res.json({ message: "sighting created" });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 // requests all from sightings
 app.get("/sightings", async (req, res) => {
   try {

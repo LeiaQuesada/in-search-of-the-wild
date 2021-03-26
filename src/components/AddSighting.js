@@ -2,18 +2,43 @@ import React from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const AddSighting = (props) => {
+  function submitFindings() {
+    // capture form creation date/time
+    let now = new Date();
+    console.log(now.toISOString());
+    let reqBodyObj = {
+      species: "foo",
+      creationdate: now.toISOString(),
+    };
+    fetch(`http://localhost:5000/addsighting`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBodyObj),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          if (result.success) {
+            alert(result.message);
+          }
+        },
+        (error) => {
+          alert(error);
+        }
+      );
+  }
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    return false;
+  };
+
   return (
     <>
       <h3>Add your sighting data below:</h3>
-      <Form>
+      <Form onSubmit={submitForm}>
         <FormGroup>
-          <Label for="species">Species</Label>
-          <Input
-            type="text"
-            name="species"
-            id="species_id"
-            placeholder="Species"
-          />
           <Label for="individual">Individual</Label>
           <Input
             type="text"
@@ -21,12 +46,12 @@ const AddSighting = (props) => {
             id="individual_id"
             placeholder="Individual ID Number"
           />
-          <Label for="exampleDatetime">Datetime</Label>
+          <Label for="exampleDatetime">Location</Label>
           <Input
-            type="datetime"
-            name="datetime"
-            id="exampleDatetime"
-            placeholder="datetime placeholder"
+            type="text"
+            name="Location"
+            id="sightinglocation"
+            placeholder="Location of wildlife observed"
           />
           <Label for="exampleDate">Date</Label>
           <Input
@@ -48,7 +73,9 @@ const AddSighting = (props) => {
             </Label>
           </FormGroup>
         </FormGroup>
-        <Button color="secondary">Submit Findings</Button>{" "}
+        <Button color="secondary" onClick={submitFindings}>
+          Submit Findings
+        </Button>{" "}
       </Form>
     </>
   );
