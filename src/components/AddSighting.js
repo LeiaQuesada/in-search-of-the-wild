@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-const AddSighting = (props) => {
+const AddSighting = () => {
   let history = useHistory();
   const [individual_id, setIndividual_id] = useState();
   const [healthy, setHealthy] = useState(false);
   const [location, setLocation] = useState();
   const [date, setDate] = useState();
   const [time, setTime] = useState();
+  const loc = useLocation();
 
   function submitFindings() {
     // capture form creation date/time
@@ -21,7 +22,9 @@ const AddSighting = (props) => {
       date,
       time,
       creationdate: now.toISOString(),
+      email: loc.state.email,
     };
+    console.log({ reqBodyObj });
     fetch(`http://localhost:5000/addsighting`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,7 +52,7 @@ const AddSighting = (props) => {
 
   return (
     <>
-      <h3>Add your sighting data below:</h3>
+      <h3>Add your sighting data below</h3>
       <Form onSubmit={submitForm}>
         <FormGroup>
           <Label for="individual">Individual</Label>

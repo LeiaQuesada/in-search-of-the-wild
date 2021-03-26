@@ -48,12 +48,13 @@ app.post("/addsighting", async (req, res) => {
       location,
       date,
       time,
+      email,
     } = req.body;
     const newSighting = await db.one(
-      `INSERT INTO sighting (creationdate, individual_id, healthy, location, date, time) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
-      [creationdate, individual_id, healthy, location, date, time]
+      `INSERT INTO sighting (creationdate, individual_id, healthy, location, date, time, email) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`,
+      [creationdate, individual_id, healthy, location, date, time, email]
     );
-
+    console.log(healthy, req.body);
     res.json({ message: "sighting created" });
   } catch (e) {
     console.log(e);
@@ -63,8 +64,17 @@ app.post("/addsighting", async (req, res) => {
 // requests all from sightings
 app.get("/sightings", async (req, res) => {
   try {
-    const sighting = await db.any("SELECT * FROM sighting;", [true]);
+    const sighting = await db.any(
+      `SELECT sighting.date, sighting.time, sighting.location, individual.nickname 
+      FROM sighting
+      INNER JOIN individual
+      ON sighting.individual_id = individual.individual_id
+      WHERE sighting.individual_id = individual.individual_id
+      ;`,
+      [true]
+    );
     res.json({ sighting });
+    console.log({ sighting });
   } catch (e) {
     console.log(e);
   }

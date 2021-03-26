@@ -16,7 +16,7 @@ const Login = () => {
       if (resultObject.userCreated === true) {
         alert("User created!");
       }
-      history.push("/sightings");
+      history.push({ pathname: "/addsighting", state: { email } });
     } catch (e) {
       console.error(e.message);
     }
