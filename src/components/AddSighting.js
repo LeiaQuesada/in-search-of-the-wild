@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const AddSighting = (props) => {
+  const [individual_id, setIndividual_id] = useState();
+  const [healthy, setHealthy] = useState(false);
+  const [location, setLocation] = useState();
+  const [date, setDate] = useState();
+  const [time, setTime] = useState();
+
   function submitFindings() {
     // capture form creation date/time
     let now = new Date();
     console.log(now.toISOString());
     let reqBodyObj = {
-      species: "foo",
+      individual_id,
+      healthy,
+      location,
+      date,
+      time,
       creationdate: now.toISOString(),
     };
     fetch(`http://localhost:5000/addsighting`, {
@@ -44,34 +54,63 @@ const AddSighting = (props) => {
             type="text"
             name="individual"
             id="individual_id"
+            value={individual_id}
             placeholder="Individual ID Number"
+            onChange={(e) => {
+              e.preventDefault();
+              setIndividual_id(e.target.value);
+            }}
           />
           <Label for="exampleDatetime">Location</Label>
           <Input
             type="text"
             name="Location"
+            value={location}
             id="sightinglocation"
             placeholder="Location of wildlife observed"
+            onChange={(e) => {
+              e.preventDefault();
+              setLocation(e.target.value);
+            }}
           />
           <Label for="exampleDate">Date</Label>
           <Input
             type="date"
             name="date"
+            value={date}
             id="exampleDate"
             placeholder="date placeholder"
+            onChange={(e) => {
+              e.preventDefault();
+              setDate(e.target.value);
+            }}
           />
           <Label for="exampleTime">Time</Label>
           <Input
             type="time"
             name="time"
+            value={time}
             id="exampleTime"
             placeholder="time placeholder"
+            onChange={(e) => {
+              e.preventDefault();
+              setTime(e.target.value);
+            }}
           />
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" /> Check box if specimen appears healthy
-            </Label>
-          </FormGroup>
+          <div className="form-check">
+            <label className="form-check-label">
+              <input
+                name="healthy"
+                type="checkbox"
+                checked={healthy}
+                onChange={(e) => {
+                  setHealthy(e.target.checked);
+                }}
+                className="form-check-input"
+              />
+              Check box if specimen appears healthy
+            </label>
+          </div>
         </FormGroup>
         <Button color="secondary" onClick={submitFindings}>
           Submit Findings
