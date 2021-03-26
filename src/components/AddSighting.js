@@ -24,7 +24,6 @@ const AddSighting = () => {
       creationdate: now.toISOString(),
       email: loc.state.email,
     };
-    console.log({ reqBodyObj });
     fetch(`http://localhost:5000/addsighting`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,7 +51,7 @@ const AddSighting = () => {
 
   return (
     <>
-      <h3>Add your sighting data below</h3>
+      <h3>Add your sighting data below:</h3>
       <Form onSubmit={submitForm}>
         <FormGroup>
           <Label for="individual">Individual</Label>
