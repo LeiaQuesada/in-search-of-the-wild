@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Toast, ToastBody, ToastHeader } from "reactstrap";
 import redlistimage from "../redlistindex.png";
 
 const Sightings = () => {
+  const [sightingList, setSightingList] = useState([]);
+
+  async function sightingTile() {
+    try {
+      let res = await fetch(`http://localhost:5000/sightings`);
+      let sightingList = await res.json();
+      console.log(sightingList);
+      return sightingList.sighting;
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  useEffect(async () => {
+    const tiles = await sightingTile();
+    setSightingList(tiles);
+  }, []);
+
   return (
     <>
       <div
@@ -24,6 +42,9 @@ const Sightings = () => {
           <Toast>
             <ToastHeader>Individual Sightings</ToastHeader>
             <ToastBody>
+              {sightingList.map((element) => (
+                <p>{element.date}</p>
+              ))}
               <ul>
                 <li>this is really ugly</li>
                 <li>so far</li>
